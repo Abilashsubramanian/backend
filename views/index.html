@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <h1>this is index page</h1>
+    <a href="./blog.html">go to blog page</a>
+    <form action="/newstudent" method="post" id="form">
+        <table>
+            <tr>
+                <td>
+                    <label>StudentName</label></td>
+                 <td>  <input type="text" placeholder="enter a name" id="" name="name"></td>
+            </tr>
+            <tr>
+                  <td> <label>StudentId</label></td> 
+                 <td>   <input type="text" placeholder="enter a SID" id="" name="id"></td>
+            </tr>
+            <tr>
+                   <td> <label>StudentMobile</label></td>
+                  <td>  <input type="number" id="" name="mobile"></td>
+            </tr>
+            <tr>
+                 <td>  <input type="submit" value="Register"></td>
+            </tr>
+        </table>
+    </form>
+    <button id="get">GET STUDENTS</button>
+    <script>
+        let form=document.getElementById('form')
+        let userDetails={}
+        form.addEventListener("input",(event)=>{
+            let name=event.target.name
+            let value=event.target.value
+            userDetails[name]=value
+        })
+        form.addEventListener('submit',(event)=>{
+            event.preventDefault()
+            fetch("/newstudent",{
+                method:"POST",
+                headers:{"content-type":"application/json"},
+                body:JSON.stringify(userDetails)
+            }).then(res=>res.json())
+            .then(data=>console.log(data))
+            .catch(err=>console.log(err))
+        })
+
+        let getbtn=document.getElementById('get')
+        getbtn.addEventListener("click",()=>{
+            fetch('/getstudents')
+            .then(res=>res.json())
+            .then(data=>console.log(data))
+            .catch(err=>console.log(err))
+        })
+    </script>
+
+</body>
+</html>
